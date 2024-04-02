@@ -139,7 +139,7 @@ void CCore::Render(float fDeltaTime)
 {
 	CTexture* pBackBuffer = GET_SINGE(CResourceManager)->GetBackBuffer();
 
-	Rectangle(pBackBuffer->GetDC(), 0, 0, 1280, 1280);
+	Rectangle(pBackBuffer->GetDC(), 0, 0, 1920, 1080);
 	GET_SINGE(CSceneManager)->Render(pBackBuffer->GetDC(), fDeltaTime);
 
 	BitBlt(m_hDC, 0, 0, m_tRS.iW, m_tRS.iH, pBackBuffer->GetDC(), 0, 0, SRCCOPY);
@@ -151,6 +151,9 @@ LRESULT CCore::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
 	{
+	case WM_CREATE:
+		
+		break;
 	case WM_DESTROY:
 		m_bLoop = false;
 		PostQuitMessage(0);
