@@ -15,7 +15,7 @@ bool CInGameScene::Init()
 		return false;
 
 	CLayer*  pLayer = FindLayer("Default");
-	CMap* pMap = new CMap(720, 720);
+	CMap* pMap = new CMap(100, 100);
 	pLayer->AddObject(pMap);
 
 	return true;

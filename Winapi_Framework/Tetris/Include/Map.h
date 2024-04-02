@@ -15,8 +15,8 @@ public:
     CMap(const CMap& obj);
     ~CMap();
 private:
-    const int m_iHeight = 20;
-    const int m_iWidth = 10;
+    const int m_iHeight = 100;
+    const int m_iWidth = 100;
     const int m_iTileSize = 16;
     Array2D m_2DMap;
     CTexture* m_pAir;
@@ -32,6 +32,13 @@ private:
 
 public:
     virtual bool Init();
+    virtual void Input(float fDeltaTime);
     virtual void Render(HDC hDC, float fDeltaTime);
     virtual CMap* Clone();
+private:
+    void InitTexture();
+    void GenerateMap();
+    void SetupRandomMap();
+    void CalCellular();
+    int CountSurround(int x, int y);
 };

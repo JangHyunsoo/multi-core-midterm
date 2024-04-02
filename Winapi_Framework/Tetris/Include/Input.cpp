@@ -16,12 +16,13 @@ bool CInput::Init(HWND hWnd)
 {
 	m_hWnd = hWnd;
 
-	AddKey('A', "MoveLeft");
-	AddKey('D', "MoveRight");
-	AddKey('J', "TurnLeft");
-	AddKey('K', "TurnRight");
-	AddKey('S', "Down");
-	AddKey('H', "Hold");
+	AddKey('A', "Left");
+	AddKey('D', "Right");
+	AddKey('W', "Forward");
+	AddKey('S', "Back");
+	AddKey('F', "Down");
+	AddKey('R', "Up");
+	AddKey('B', "Activate");
 
 	return true;
 }

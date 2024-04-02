@@ -1,4 +1,5 @@
 #pragma once
+#include <stdlib.h>
 
 template<typename T>
 void Safe_Delete_VecList(T& p) {

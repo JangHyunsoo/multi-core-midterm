@@ -52,12 +52,6 @@
     <Filter Include="03.Object\02.StaticObj\01.Map">
       <UniqueIdentifier>{f70567d9-a1d0-40ae-b7cd-6f7dc71344d3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.Object\02.StaticObj\02.Hold">
-      <UniqueIdentifier>{5a8c962c-6c73-426b-b1e4-92e7684146e2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.Object\02.StaticObj\03.BlockQueue">
-      <UniqueIdentifier>{750acdf1-a293-4f86-8ff7-4b5ad5d117fe}</UniqueIdentifier>
-    </Filter>
     <Filter Include="00.Texture">
       <UniqueIdentifier>{9d358868-920e-4880-b9f4-463ec5bec9fb}</UniqueIdentifier>
     </Filter>
