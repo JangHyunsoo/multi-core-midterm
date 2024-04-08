@@ -55,6 +55,12 @@
     <Filter Include="00.Texture">
       <UniqueIdentifier>{9d358868-920e-4880-b9f4-463ec5bec9fb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.Object\01.MoveObj\01.Player">
+      <UniqueIdentifier>{a8ffc158-fd48-4585-9e00-981718fd10d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Object\02.StaticObj\02.FPSUI">
+      <UniqueIdentifier>{0ddc6b77-35f8-457e-a0cd-2e6714d92be4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -104,6 +110,9 @@
     </ClCompile>
     <ClCompile Include="Map.cpp">
       <Filter>03.Object\02.StaticObj\01.Map</Filter>
+    </ClCompile>
+    <ClCompile Include="FpsUI.cpp">
+      <Filter>03.Object\02.StaticObj\02.FPSUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -169,6 +178,9 @@
     </ClInclude>
     <ClInclude Include="Map.h">
       <Filter>03.Object\02.StaticObj\01.Map</Filter>
+    </ClInclude>
+    <ClInclude Include="FpsUI.h">
+      <Filter>03.Object\02.StaticObj\02.FPSUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

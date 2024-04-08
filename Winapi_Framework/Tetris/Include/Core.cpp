@@ -53,7 +53,7 @@ bool CCore::Init(HINSTANCE hInst, const wchar_t* strName, int iWidth, int iHeigh
 	if (!GET_SINGE(CInput)->Init(m_hWnd))
 		return false;
 
-	if (!GET_SINGE(CSceneManager)->Init())
+	if (!GET_SINGE(CSceneManager)->Init(m_hDC))
 		return false;
 
 	return true;

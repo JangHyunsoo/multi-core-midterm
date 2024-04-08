@@ -42,7 +42,7 @@ CLayer* CScene::FindLayer(const string& strTag)
 	return NULL;
 }
 
-bool CScene::Init()
+bool CScene::Init(HDC hDC)
 {
 	return true;
 }

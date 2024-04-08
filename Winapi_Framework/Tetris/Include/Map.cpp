@@ -4,27 +4,34 @@
 #include "Function.h"
 #include "Input.h"
 #include <random>
+#include <omp.h>
 
 CMap::CMap() {
 
 }
 
-CMap::CMap(int width, int height) : m_iWidth(width), m_iHeight(height)
+CMap::CMap(HDC hDC, int width, int height) : m_iWidth(width), m_iHeight(height)
 {
 	m_2DMap = Array2D(m_iHeight, std::vector<TILE_TYPE>(m_iWidth, TILE_TYPE::LAND));
-	Init();
+	m_hMemDC = CreateCompatibleDC(hDC);
+	m_hMemBitmap = CreateCompatibleBitmap(hDC, m_iWidth * m_iTileSize, m_iHeight * m_iTileSize);
+	SelectObject(m_hMemDC, m_hMemBitmap);
 }
 
 CMap::CMap(const CMap& obj) :
 	CStaticObj(obj), m_iWidth(obj.m_iWidth), m_iHeight(obj.m_iHeight)
 {
 	m_2DMap = Array2D(obj.m_iHeight, std::vector<TILE_TYPE>(obj.m_iWidth, TILE_TYPE::LAND));
-	Init();
+	m_hMemDC = CreateCompatibleDC(NULL);
+	m_hMemBitmap = CreateCompatibleBitmap(NULL, m_iWidth * m_iTileSize, m_iHeight * m_iTileSize);
+	SelectObject(m_hMemDC, m_hMemBitmap);
 }
 
 
 CMap::~CMap()
 {
+	DeleteObject(m_hMemBitmap);
+	DeleteDC(m_hMemDC);
 }
 
 void CMap::SetCell(int x, int y, TILE_TYPE bValue)
@@ -44,6 +51,7 @@ bool CMap::Init()
 	SetPos(0, 0);
 	InitTexture();
 	GenerateMap();
+	DrawMap();
 	return true;
 }
 
@@ -57,9 +65,6 @@ void CMap::InitTexture() {
 
 void CMap::GenerateMap() {
 	SetupRandomMap();
-	CalCellular();
-	CalCellular();
-	CalCellular();
 }
 
 void CMap::SetupRandomMap() {
@@ -72,14 +77,13 @@ void CMap::SetupRandomMap() {
 	{
 		for (int x = 3; x < m_iWidth - 3; x++)
 		{
-			if(dis(gen) > 0.45f)
+			if(dis(gen) > 0.4f)
 			{
 				m_2DMap[y][x] = TILE_TYPE::AIR;
 				count++;
 			}
 		}
 	}
-	cout << count;
 }
 
 void CMap::CalCellular() {
@@ -97,6 +101,38 @@ void CMap::CalCellular() {
 		}
 	}
 }
+
+void CMap::CalCellularParallel() {
+	#pragma omp parallel num_threads(4)
+	{
+		int n = m_iHeight - 6;
+		int thread_count = omp_get_num_threads();
+		double d_thread_count = (double)thread_count;
+		int thread_id = omp_get_thread_num();
+		double d_thread_id = (double)thread_id;
+
+		double d_start_height = d_thread_id * n / d_thread_count;
+		int start_height = (int)d_start_height + 3;
+		double d_end_height = (thread_count == thread_id - 1) ? n : d_start_height + n / d_thread_count;
+		int end_height = (int)d_end_height + 3;
+		for (int y = start_height; y < end_height; y++)
+		{
+			for (int x = 3; x < m_iWidth - 3; x++)
+			{
+				int counter = CountSurround(x, y);
+				if (counter > 4) {
+					m_2DMap[y][x] = TILE_TYPE::LAND;
+				}
+				else if (counter < 4) {
+					m_2DMap[y][x] = TILE_TYPE::AIR;
+				}
+			}
+		}
+	}
+
+	DrawMap();
+}
+
 
 int CMap::CountSurround(int x, int y) {
 	int counter = 0;
@@ -127,6 +163,22 @@ HBRUSH& CMap::getTile(TILE_TYPE tile_type) {
 	}
 }
 
+void CMap::DrawMap()
+{
+	for (int x = 0; x < m_iWidth; x++) {
+		for (int y = 0; y < m_iHeight; y++) {
+			int dx = m_tPos.x + x * m_iTileSize;
+			int dy = m_tPos.y + y * m_iTileSize;
+			SelectObject(m_hMemDC, getTile(m_2DMap[y][x]));
+			Rectangle(m_hMemDC, dx, dy, dx + m_iTileSize, dy + m_iTileSize);
+		}
+	}
+
+	SelectObject(m_hMemDC, m_pAir);
+}
+
+
+
 bool CMap::IsMap(int x, int y)
 {
 	return x < m_iWidth && y < m_iHeight && x >= 0 && y >= 0;
@@ -135,23 +187,13 @@ bool CMap::IsMap(int x, int y)
 void CMap::Input(float fDeltaTime)
 {
 	if (GET_SINGE(CInput)->KeyDown("Activate")) {
-		CalCellular();
+		CalCellularParallel();
 	}
 }
 
 void CMap::Render(HDC hDC, float fDeltaTime)
-{
-	for (int x = 0; x < m_iWidth; x++) {
-		for (int y = 0; y < m_iHeight; y++) {
-			int dx = m_tPos.x + x * m_iTileSize;
-			int dy = m_tPos.y + y * m_iTileSize;
-			// BitBlt(hDC, dx, dy, dx + m_iTileSize, dy + m_iTileSize, getTile(m_2DMap[y][x])->GetDC(), 0, 0, SRCCOPY);
-			SelectObject(hDC, getTile(m_2DMap[y][x]));
-			Rectangle(hDC, dx, dy, dx + m_iTileSize, dy + m_iTileSize);
-		}
-	}
-
-	SelectObject(hDC, m_pWhite);
+{	
+	BitBlt(hDC, 0, 0,m_iWidth * m_iTileSize, m_iHeight * m_iTileSize, m_hMemDC, 0, 0, SRCCOPY);
 }
 
 CMap* CMap::Clone()

@@ -9,7 +9,7 @@ private:
 	class CScene* m_pNextScene; // ¿Ã∞≈ æ»æ∏
 
 public:
-	bool Init();
+	bool Init(HDC hDC);
 	void Input(float fDeltaTime);
 	int Update(float fDeltaTime);
 	int LateUpdate(float fDeltaTime);
@@ -19,10 +19,10 @@ public:
 
 public:
 	template<typename T>
-	T* CreateScene(SCENE_CREATE sc) { // sc : next, current
+	T* CreateScene(HDC hDC, SCENE_CREATE sc) { // sc : next, current
 		T* pScene = new T;
 
-		if (!pScene->Init()) {
+		if (!pScene->Init(hDC)) {
 			SAFE_DELETE(pScene);
 			return NULL;
 		}
