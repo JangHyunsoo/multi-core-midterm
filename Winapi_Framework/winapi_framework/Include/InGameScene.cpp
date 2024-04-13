@@ -21,7 +21,7 @@ bool CInGameScene::Init(HDC hDC)
 	pLayer->AddObject(pPlayerObj);
 
 	pLayer = FindLayer("Default");
-	CMap* pMap = new PerlinNoiseMap(hDC, 1000, 1000);
+	CMap* pMap = new CellularMap(hDC, 1000, 1000);
 	pMap->Init();
 	pLayer->AddObject(pMap);
 

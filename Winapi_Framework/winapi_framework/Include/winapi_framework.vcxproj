@@ -123,7 +123,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <OpenMPSupport>false</OpenMPSupport>
+      <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -149,6 +149,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CellularMap.cpp" />
+    <ClCompile Include="Clock.cpp" />
     <ClCompile Include="FpsUI.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Map.cpp" />
@@ -168,10 +169,12 @@
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="StaticObj.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="ThreadManager.cpp" />
     <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CellularMap.h" />
+    <ClInclude Include="Clock.h" />
     <ClInclude Include="Flag.h" />
     <ClInclude Include="FpsUI.h" />
     <ClInclude Include="Function.h" />
@@ -195,6 +198,7 @@
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="StaticObj.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="ThreadManager.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Type.h" />
   </ItemGroup>

@@ -14,7 +14,7 @@ private:
 	const wchar_t* m_strName;
 
 public:
-	bool Init(HINSTANCE hInst, const wchar_t* strName, int iWidth, int iHeight);
+	bool Init(HINSTANCE hInst, const wchar_t* strName, int iWidth, int iHeight, int iThreadCount = 4);
 	int Run();
 private:
 	void Logic();

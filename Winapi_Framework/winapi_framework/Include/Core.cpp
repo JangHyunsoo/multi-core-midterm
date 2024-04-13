@@ -7,6 +7,8 @@
 #include "Input.h"
 #include "Obj.h"
 #include "Player.h"
+#include "Clock.h"
+#include "ThreadManager.h"
 
 DEFINITION_SINGLE(CCore)
 bool CCore::m_bLoop = true;
@@ -24,11 +26,12 @@ CCore::~CCore()
 	DESTROY_SINGE(CPathManager);
 	DESTROY_SINGE(CResourceManager);
 	DESTROY_SINGE(CTimer);
+	DESTROY_SINGE(Clock);
 
 	ReleaseDC(m_hWnd, m_hDC);
 }
 
-bool CCore::Init(HINSTANCE hInst, const wchar_t* strName, int iWidth, int iHeight)
+bool CCore::Init(HINSTANCE hInst, const wchar_t* strName, int iWidth, int iHeight, int iThreadCount)
 {
 	this->m_hInst = hInst;
 
@@ -41,6 +44,8 @@ bool CCore::Init(HINSTANCE hInst, const wchar_t* strName, int iWidth, int iHeigh
 	Create();
 
 	m_hDC = GetDC(m_hWnd);
+
+	GET_SINGE(ThreadManager)->setThreadCount(4);
 
 	if (!GET_SINGE(CTimer)->Init())
 		return false;
@@ -143,7 +148,6 @@ void CCore::Render(float fDeltaTime)
 	Player* player = Player::GetInst();
 
 	Rectangle(pBackBuffer->GetDC(), 0, 0, 1920, 1080);
-	Rectangle(pBackBuffer->GetDC(), player->GetPos().x - m_tRS.iW / 2, player->GetPos().y - m_tRS.iH / 2, player->GetPos().x + m_tRS.iW / 2, player->GetPos().y + m_tRS.iH / 2);
 	GET_SINGE(CSceneManager)->Render(pBackBuffer->GetDC(), fDeltaTime);
 
 	BitBlt(m_hDC, 0, 0, m_tRS.iW, m_tRS.iH, pBackBuffer->GetDC(), player->GetPos().x - m_tRS.iW / 2, player->GetPos().y - m_tRS.iH / 2, SRCCOPY);

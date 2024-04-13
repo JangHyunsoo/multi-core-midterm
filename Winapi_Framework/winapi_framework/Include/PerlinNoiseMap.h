@@ -2,10 +2,11 @@
 #include "Map.h"
 #include "PerlinNoise.h"
 #include "Input.h"
+#include "Clock.h"
 #include <omp.h>
 
 class PerlinNoiseMap :
-    public CMap
+	public CMap
 {
 private:
 	PerlinNoise m_cPerlinNoise;
@@ -16,10 +17,10 @@ public:
 	virtual void Input(float fDeltaTime) {
 		if (CInput::GetInst()->KeyDown("Activate"))
 		{
-			setupMap();
+			setUpMap();
 			DrawMap();
 		}
-		
+
 		if (CInput::GetInst()->KeyDown("ActivateParallel"))
 		{
 			setUpMapParallel();
@@ -27,18 +28,19 @@ public:
 		}
 
 	}
-    virtual PerlinNoiseMap* Clone() {
-        return new PerlinNoiseMap(*this);
-    }
-private:
-    void GenerateMap() {
-		setUpMapParallel();
-		DrawMap();
+	virtual PerlinNoiseMap* Clone() {
+		return new PerlinNoiseMap(*this);
 	}
-	void setupMap() {
+private:
+	void GenerateMap() {
+		Clock::GetInst()->start();
+		setUpMapParallel();
+		Clock::GetInst()->end();
+		Clock::GetInst()->message();
+		DrawMapParallel();
+	}
+	void setUpMap() {
 		std::vector<std::vector<double>> perlin_value(m_iHeight, vector<double>(m_iWidth, 0));
-		double mean = 0.0f;
-		double count = 0.0f;
 		const int GRID_SIZE = 50;
 
 		for (int x = 0; x < m_iWidth; x++)
@@ -69,22 +71,13 @@ private:
 
 				int result = (int)(((val + 1.0f) * 0.5f) * 255);
 
-				perlin_value[y][x] = result;
-				mean += result;
-				count++;
-			}
-		}
 
-		mean /= count;
-
-		for (unsigned int i = 0; i < m_iHeight; ++i) {
-			for (unsigned int j = 0; j < m_iWidth; ++j) {
-				if (perlin_value[i][j] > 122) {
-					m_2DMap[i][j] = TILE_TYPE::LAND;
+				if (result > 122) {
+					m_2DMap[y][x] = TILE_TYPE::LAND;
 				}
 				else {
-					m_2DMap[i][j] = TILE_TYPE::AIR;
-				}
+					m_2DMap[y][x] = TILE_TYPE::AIR;
+				};
 			}
 		}
 	}
@@ -92,8 +85,8 @@ private:
 	void setUpMapParallel() {
 		std::vector<std::vector<double>> perlin_value(m_iHeight, vector<double>(m_iWidth, 0));
 		const int GRID_SIZE = 50;
-
-#pragma omp parallel num_threads(8)
+		int thread_count = ThreadManager::GetInst()->getThreadCount();
+#pragma omp parallel num_threads(thread_count)
 		{
 			int n = m_iHeight;
 			int thread_count = omp_get_num_threads();
@@ -133,18 +126,12 @@ private:
 
 					int result = (int)(((val + 1.0f) * 0.5f) * 255);
 
-					perlin_value[y][x] = result;
-				}
-			}
-		}
-
-		for (unsigned int i = 0; i < m_iHeight; ++i) {
-			for (unsigned int j = 0; j < m_iWidth; ++j) {
-				if (perlin_value[i][j] > 122) {
-					m_2DMap[i][j] = TILE_TYPE::LAND;
-				}
-				else {
-					m_2DMap[i][j] = TILE_TYPE::AIR;
+					if (result > 122) {
+						m_2DMap[y][x] = TILE_TYPE::LAND;
+					}
+					else {
+						m_2DMap[y][x] = TILE_TYPE::AIR;
+					};
 				}
 			}
 		}

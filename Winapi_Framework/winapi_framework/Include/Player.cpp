@@ -8,4 +8,6 @@ Player::Player()
 
 Player::~Player()
 {
+	DeleteObject(m_pBrush);
+	DeleteObject(m_pWhite);
 }

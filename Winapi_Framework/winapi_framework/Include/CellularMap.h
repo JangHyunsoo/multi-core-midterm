@@ -1,6 +1,7 @@
 #pragma once
 #include "Map.h"
 #include "Input.h"
+#include "Clock.h"
 #include <omp.h>
 
 class CellularMap :
@@ -11,10 +12,18 @@ public:
 	virtual void Input(float fDeltaTime)
     {
         if (GET_SINGE(CInput)->KeyDown("Activate")) {
+			Clock::GetInst()->start();
             CalCellular();
+			Clock::GetInst()->end();
+			Clock::GetInst()->message();
+			DrawMapParallel();
         }
 		if (GET_SINGE(CInput)->KeyDown("ActivateParallel")) {
+			Clock::GetInst()->start();
 			CalCellularParallel();
+			Clock::GetInst()->end();
+			Clock::GetInst()->message();
+			DrawMapParallel();
 		}
     }
     virtual CMap* Clone() {
@@ -23,7 +32,7 @@ public:
 private:
 	virtual void GenerateMap() {
 		SetupRandomMap();
-		DrawMap();
+		DrawMapParallel();
 	}
     bool IsMap(int x, int y)
     {
@@ -35,9 +44,9 @@ private:
 		std::uniform_real_distribution<float> dis(0.0f, 1.0f);
 		int count = 0;
 
-		for (int y = 3; y < m_iHeight - 3; y++)
+		for (int y = 0; y < m_iHeight; y++)
 		{
-			for (int x = 3; x < m_iWidth - 3; x++)
+			for (int x = 0; x < m_iWidth; x++)
 			{
 				if (dis(gen) > 0.4f)
 				{
@@ -47,13 +56,18 @@ private:
 			}
 		}
 	}
-	int CountSurround(int x, int y) {
+	inline int CountSurround(int x, int y) {
 		int counter = 0;
 		for (int dy = -1; dy <= 1; dy++)
 		{
 			for (int dx = -1; dx <= 1; dx++)
 			{
-				if (m_2DMap[y + dy][x + dx] == TILE_TYPE::LAND)
+				int cur_x = x + dx;
+				int cur_y = y + dy;
+				if (!IsMap(cur_x, cur_y)) {
+					counter++;
+				}
+				else if (m_2DMap[cur_y][cur_x] == TILE_TYPE::LAND)
 				{
 					counter++;
 				}
@@ -62,9 +76,9 @@ private:
 		return counter;
 	}
 	void CalCellular() {
-		for (int y = 3; y < m_iHeight - 3; y++)
+		for (int y = 0; y < m_iHeight; y++)
 		{
-			for (int x = 3; x < m_iWidth - 3; x++)
+			for (int x = 0; x < m_iWidth; x++)
 			{
 				int counter = CountSurround(x, y);
 				if (counter > 4) {
@@ -77,21 +91,21 @@ private:
 		}
 	}
 	void CalCellularParallel() {
-#pragma omp parallel num_threads(8)
+		int thread_count = ThreadManager::GetInst()->getThreadCount();
+#pragma omp parallel num_threads(thread_count)
 		{
-			int n = m_iHeight - 6;
-			int thread_count = omp_get_num_threads();
+			int n = m_iHeight;
 			double d_thread_count = (double)thread_count;
 			int thread_id = omp_get_thread_num();
 			double d_thread_id = (double)thread_id;
 
 			double d_start_height = d_thread_id * n / d_thread_count;
-			int start_height = (int)d_start_height + 3;
+			int start_height = (int)d_start_height;
 			double d_end_height = (thread_count == thread_id - 1) ? n : d_start_height + n / d_thread_count;
-			int end_height = (int)d_end_height + 3;
-			for (int y = start_height; y < end_height; y++)
+			int end_height = (int)d_end_height;
+			for (int y = start_height; y < end_height - 1; y++)
 			{
-				for (int x = 3; x < m_iWidth - 3; x++)
+				for (int x = 0; x < m_iWidth; x++)
 				{
 					int counter = CountSurround(x, y);
 					if (counter > 4) {
@@ -102,8 +116,19 @@ private:
 					}
 				}
 			}
+#pragma omp barrier
+			int y = end_height - 1;
+			for (int x = 0; x < m_iWidth; x++)
+			{
+				int counter = CountSurround(x, y);
+				if (counter > 4) {
+					m_2DMap[y][x] = TILE_TYPE::LAND;
+				}
+				else if (counter < 4) {
+					m_2DMap[y][x] = TILE_TYPE::AIR;
+				}
+			}
 		}
-		DrawMap();
 	}
 };
 

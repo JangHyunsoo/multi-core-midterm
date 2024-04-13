@@ -12,7 +12,6 @@ private:
 	HBRUSH m_pWhite;
 public:
 	virtual bool Init() {
-		//MessageBox(NULL, L"Test", L"Error!", MB_ICONEXCLAMATION | MB_OK);
 		SetPos(500, 500);
 		SetSize(8, 8);
 		m_pWhite = CreateSolidBrush(RGB(255, 255, 255));

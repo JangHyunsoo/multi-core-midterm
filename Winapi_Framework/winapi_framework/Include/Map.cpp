@@ -53,6 +53,7 @@ bool CMap::Init()
 {
 	SetPos(0, 0);
 	InitTexture();
+	InitParallel();
 	GenerateMap();
 	return true;
 }
@@ -102,6 +103,5 @@ bool CMap::IsMap(int x, int y)
 
 void CMap::Render(HDC hDC, float fDeltaTime)
 {	
-	Player* player = Player::GetInst();
 	BitBlt(hDC, 0, 0,m_iWidth * m_iTileSize , m_iHeight * m_iTileSize, m_hMemDC, 0, 0, SRCCOPY);
 }
