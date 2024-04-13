@@ -16,7 +16,7 @@ bool CInGameScene::Init(HDC hDC)
 		return false;
 
 	CLayer*  pLayer = FindLayer("Default");
-	CMap* pMap = new CMap(hDC, 1000, 1000);
+	CMap* pMap = new CMap(hDC, 100, 100);
 	pMap->Init();
 	pLayer->AddObject(pMap);
 

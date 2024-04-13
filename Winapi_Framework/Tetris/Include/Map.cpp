@@ -3,6 +3,7 @@
 #include "Flag.h"
 #include "Function.h"
 #include "Input.h"
+#include "PerlinNoise.h"
 #include <random>
 #include <omp.h>
 
@@ -10,7 +11,7 @@ CMap::CMap() {
 
 }
 
-CMap::CMap(HDC hDC, int width, int height) : m_iWidth(width), m_iHeight(height)
+CMap::CMap(HDC hDC, int width, int height) : m_iWidth(300), m_iHeight(300)
 {
 	m_2DMap = Array2D(m_iHeight, std::vector<TILE_TYPE>(m_iWidth, TILE_TYPE::LAND));
 	m_hMemDC = CreateCompatibleDC(hDC);
@@ -50,8 +51,9 @@ bool CMap::Init()
 {
 	SetPos(0, 0);
 	InitTexture();
-	GenerateMap();
-	DrawMap();
+	GenerateMapWithPerlin();
+	//GenerateMap();
+	//DrawMap();
 	return true;
 }
 
@@ -61,6 +63,54 @@ void CMap::InitTexture() {
 	m_pLand = CreateSolidBrush(RGB(0, 255, 100));
 	m_pStone = CreateSolidBrush(RGB(222, 222, 222));
 	m_pWater = CreateSolidBrush(RGB(0, 100, 255));
+}
+
+void CMap::GenerateMapWithPerlin() {
+	PerlinNoise pn;
+	std::vector<std::vector<double>> perlin_value(m_iHeight, vector<double>(m_iWidth, 0));
+	double mean = 0.0f;
+	double count = 0.0f;
+
+	for (unsigned int i = 0; i < m_iHeight; ++i) {     // y
+		for (unsigned int j = 0; j < m_iWidth; ++j) {  // x
+			double x = (double)j / 30.0;
+			double y = (double)i / 30.0;
+
+			// Typical Perlin noise
+			double n = pn.noise(10 * x, 10 * y, 0.2);
+
+			// Wood like structure
+			n = 20 * pn.noise(x, y, 0.8);
+			n = n - floor(n);
+
+			// Map the values to the [0, 255] interval, for simplicity we use 
+			// tones of grey
+			perlin_value[i][j] = n;
+			count += 1.0f;
+			mean += n;
+		}
+	}
+
+	mean /= count;
+
+
+	for (unsigned int i = 0; i < m_iHeight; ++i) {     // y
+		for (unsigned int j = 0; j < m_iWidth; ++j) {  // x
+			if (perlin_value[i][j] > mean + 0.1) {
+				m_2DMap[i][j] = TILE_TYPE::LAND;
+			}
+			else {
+				m_2DMap[i][j] = TILE_TYPE::WATER;
+			}
+			//int value = (int)(perlin_value[i][j] * 250);
+			//int dx = j * m_iTileSize;
+			//int dy = i * m_iTileSize;
+			//SelectObject(m_hMemDC, CreateSolidBrush(RGB(value, value, value)));
+			//Rectangle(m_hMemDC, dx, dy, dx + m_iTileSize, dy + m_iTileSize);
+		}
+	}
+
+	DrawMap();
 }
 
 void CMap::GenerateMap() {
@@ -103,7 +153,7 @@ void CMap::CalCellular() {
 }
 
 void CMap::CalCellularParallel() {
-	#pragma omp parallel num_threads(4)
+	#pragma omp parallel num_threads(8)
 	{
 		int n = m_iHeight - 6;
 		int thread_count = omp_get_num_threads();

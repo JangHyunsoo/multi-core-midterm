@@ -61,6 +61,9 @@
     <Filter Include="03.Object\02.StaticObj\02.FPSUI">
       <UniqueIdentifier>{0ddc6b77-35f8-457e-a0cd-2e6714d92be4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.Data\01.Perlin">
+      <UniqueIdentifier>{331853bd-6369-4c56-8793-67f022eb28cf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -113,6 +116,9 @@
     </ClCompile>
     <ClCompile Include="FpsUI.cpp">
       <Filter>03.Object\02.StaticObj\02.FPSUI</Filter>
+    </ClCompile>
+    <ClCompile Include="PerlinNoise.cpp">
+      <Filter>04.Data\01.Perlin</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -181,6 +187,9 @@
     </ClInclude>
     <ClInclude Include="FpsUI.h">
       <Filter>03.Object\02.StaticObj\02.FPSUI</Filter>
+    </ClInclude>
+    <ClInclude Include="PerlinNoise.h">
+      <Filter>04.Data\01.Perlin</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -42,6 +42,7 @@ public:
     virtual CMap* Clone();
 private:
     void InitTexture();
+    void GenerateMapWithPerlin();
     void GenerateMap();
     void SetupRandomMap();
     int CountSurround(int x, int y);
