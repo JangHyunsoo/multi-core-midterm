@@ -16,13 +16,19 @@ bool CInput::Init(HWND hWnd)
 {
 	m_hWnd = hWnd;
 
-	AddKey('A', "Left");
-	AddKey('D', "Right");
-	AddKey('W', "Forward");
-	AddKey('S', "Back");
+	AddKey(VK_LEFT, "Left");
+	AddKey(VK_RIGHT, "Right");
+	AddKey(VK_UP, "Forward");
+	AddKey(VK_DOWN, "Back");
+	//AddKey("A", "Left");
+	//AddKey("D", "Right");
+	//AddKey("W", "Forward");
+	//AddKey("S", "Back");
 	AddKey('F', "Down");
 	AddKey('R', "Up");
 	AddKey('B', "Activate");
+	AddKey('V', "ActivateParallel");
+
 
 	return true;
 }

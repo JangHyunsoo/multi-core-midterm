@@ -61,7 +61,7 @@ public:
 		return m_strTag;
 	}
 
-	POSITION GetPosition() const {
+	POSITION GetPos() const {
 		return m_tPos;
 	}
 

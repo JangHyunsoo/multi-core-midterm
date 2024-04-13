@@ -193,7 +193,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Tetris.rc">
+    <ResourceCompile Include="winapi_framework.rc">
       <Filter>리소스 파일</Filter>
     </ResourceCompile>
   </ItemGroup>

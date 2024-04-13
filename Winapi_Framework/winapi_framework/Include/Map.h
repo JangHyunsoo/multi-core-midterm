@@ -14,7 +14,7 @@ public:
     CMap(HDC hDC, int width, int height);
     CMap(const CMap& obj);
     ~CMap();
-private:
+protected:
     const int m_iHeight = 100;
     const int m_iWidth = 100;
     const int m_iTileSize = 4;
@@ -29,21 +29,13 @@ private:
 public:
     void SetCell(int x, int y, TILE_TYPE bValue);
     TILE_TYPE GetCell(int x, int y);
-    void CalCellular();
-    void CalCellularParallel();
-private:
+protected:
     bool IsMap(int x, int y); 
     HBRUSH& getTile(TILE_TYPE tile_type);
+    void InitTexture();
+    virtual void GenerateMap() = 0;
     void DrawMap();
 public:
     virtual bool Init();
-    virtual void Input(float fDeltaTime);
     virtual void Render(HDC hDC, float fDeltaTime);
-    virtual CMap* Clone();
-private:
-    void InitTexture();
-    void GenerateMapWithPerlin();
-    void GenerateMap();
-    void SetupRandomMap();
-    int CountSurround(int x, int y);
 };

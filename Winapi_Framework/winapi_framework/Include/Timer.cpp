@@ -12,10 +12,10 @@ CTimer::~CTimer()
 
 bool CTimer::Init()
 {
-	QueryPerformanceFrequency(&m_tSecond); // 클락
-	QueryPerformanceCounter(&m_tTime); // 실행
+	QueryPerformanceFrequency(&m_tSecond);
+	QueryPerformanceCounter(&m_tTime);
 
-	m_fDeltaTime = 0.0f; // 이거만함
+	m_fDeltaTime = 0.0f;
 	m_fTimeScale = 1.0f;
 	m_fFPS = 0.0f;
 	m_fFPSTime = 0.0f;

@@ -22,7 +22,7 @@
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{90cdd31e-a322-4566-b2ff-f478f4200ca7}</ProjectGuid>
-    <RootNamespace>Tetris</RootNamespace>
+    <RootNamespace>winapi_framework</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -123,7 +123,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <OpenMPSupport>true</OpenMPSupport>
+      <OpenMPSupport>false</OpenMPSupport>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -148,6 +148,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CellularMap.cpp" />
     <ClCompile Include="FpsUI.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Map.cpp" />
@@ -159,6 +160,8 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PathManager.cpp" />
     <ClCompile Include="PerlinNoise.cpp" />
+    <ClCompile Include="PerlinNoiseMap.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Ref.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Scene.cpp" />
@@ -168,6 +171,7 @@
     <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CellularMap.h" />
     <ClInclude Include="Flag.h" />
     <ClInclude Include="FpsUI.h" />
     <ClInclude Include="Function.h" />
@@ -182,6 +186,8 @@
     <ClInclude Include="Obj.h" />
     <ClInclude Include="PathManager.h" />
     <ClInclude Include="PerlinNoise.h" />
+    <ClInclude Include="PerlinNoiseMap.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="Ref.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="ResourceManager.h" />
@@ -193,7 +199,7 @@
     <ClInclude Include="Type.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Tetris.rc" />
+    <ResourceCompile Include="winapi_framework.rc" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="icon1.ico" />

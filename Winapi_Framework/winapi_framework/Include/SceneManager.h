@@ -6,7 +6,7 @@ class CSceneManager
 {
 private:
 	class CScene* m_pScene;
-	class CScene* m_pNextScene; // ¿Ã∞≈ æ»æ∏
+	class CScene* m_pNextScene;
 
 public:
 	bool Init(HDC hDC);
@@ -15,8 +15,6 @@ public:
 	int LateUpdate(float fDeltaTime);
 	void Collision(float fDeltaTime);
 	void Render(HDC hDC, float fDeltaTime);
-
-
 public:
 	template<typename T>
 	T* CreateScene(HDC hDC, SCENE_CREATE sc) { // sc : next, current
@@ -42,6 +40,13 @@ public:
 		}
 
 		return pScene;
+	}
+
+private:
+	void loadNextScene() {
+		SAFE_DELETE(m_pScene);
+		m_pScene = m_pNextScene;
+		m_pNextScene = nullptr;
 	}
 
 	DECLARE_SINGLE(CSceneManager)

@@ -6,6 +6,7 @@
 #include "Timer.h"
 #include "Input.h"
 #include "Obj.h"
+#include "Player.h"
 
 DEFINITION_SINGLE(CCore)
 bool CCore::m_bLoop = true;
@@ -39,7 +40,7 @@ bool CCore::Init(HINSTANCE hInst, const wchar_t* strName, int iWidth, int iHeigh
 
 	Create();
 
-	m_hDC = GetDC(m_hWnd); // 그림그릴때
+	m_hDC = GetDC(m_hWnd);
 
 	if (!GET_SINGE(CTimer)->Init())
 		return false;
@@ -139,10 +140,13 @@ void CCore::Render(float fDeltaTime)
 {
 	CTexture* pBackBuffer = GET_SINGE(CResourceManager)->GetBackBuffer();
 
+	Player* player = Player::GetInst();
+
 	Rectangle(pBackBuffer->GetDC(), 0, 0, 1920, 1080);
+	Rectangle(pBackBuffer->GetDC(), player->GetPos().x - m_tRS.iW / 2, player->GetPos().y - m_tRS.iH / 2, player->GetPos().x + m_tRS.iW / 2, player->GetPos().y + m_tRS.iH / 2);
 	GET_SINGE(CSceneManager)->Render(pBackBuffer->GetDC(), fDeltaTime);
 
-	BitBlt(m_hDC, 0, 0, m_tRS.iW, m_tRS.iH, pBackBuffer->GetDC(), 0, 0, SRCCOPY);
+	BitBlt(m_hDC, 0, 0, m_tRS.iW, m_tRS.iH, pBackBuffer->GetDC(), player->GetPos().x - m_tRS.iW / 2, player->GetPos().y - m_tRS.iH / 2, SRCCOPY);
 
 	SAFE_RELEASE(pBackBuffer);
 }

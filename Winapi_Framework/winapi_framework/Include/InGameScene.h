@@ -7,7 +7,6 @@ private:
     friend class CSceneManager;
 private:
     CInGameScene();
-    ~CInGameScene();
 public:
     virtual bool Init(HDC hDC); 
 };

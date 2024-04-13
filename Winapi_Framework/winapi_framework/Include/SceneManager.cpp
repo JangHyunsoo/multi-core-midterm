@@ -43,4 +43,7 @@ void CSceneManager::Collision(float fDeltaTime)
 void CSceneManager::Render(HDC hDC, float fDeltaTime)
 {
 	m_pScene->Render(hDC, fDeltaTime);
+	if (m_pNextScene) {
+		loadNextScene();
+	}
 }
