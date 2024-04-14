@@ -94,8 +94,6 @@ void CMap::DrawMap()
 	SelectObject(m_hMemDC, m_pAir);
 }
 
-
-
 bool CMap::IsMap(int x, int y)
 {
 	return x < m_iWidth && y < m_iHeight && x >= 0 && y >= 0;

@@ -16,14 +16,14 @@ public:
             CalCellular();
 			Clock::GetInst()->end();
 			Clock::GetInst()->message();
-			DrawMapParallel();
+			DrawMap();
         }
 		if (GET_SINGE(CInput)->KeyDown("ActivateParallel")) {
-			Clock::GetInst()->start();
 			CalCellularParallel();
+			Clock::GetInst()->start();
+			DrawMapParallel();
 			Clock::GetInst()->end();
 			Clock::GetInst()->message();
-			DrawMapParallel();
 		}
     }
     virtual CMap* Clone() {
@@ -32,7 +32,7 @@ public:
 private:
 	virtual void GenerateMap() {
 		SetupRandomMap();
-		DrawMapParallel();
+		DrawMap();
 	}
     bool IsMap(int x, int y)
     {

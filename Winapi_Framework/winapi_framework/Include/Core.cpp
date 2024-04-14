@@ -45,7 +45,7 @@ bool CCore::Init(HINSTANCE hInst, const wchar_t* strName, int iWidth, int iHeigh
 
 	m_hDC = GetDC(m_hWnd);
 
-	GET_SINGE(ThreadManager)->setThreadCount(4);
+	GET_SINGE(ThreadManager)->setThreadCount(iThreadCount);
 
 	if (!GET_SINGE(CTimer)->Init())
 		return false;
@@ -146,8 +146,10 @@ void CCore::Render(float fDeltaTime)
 	CTexture* pBackBuffer = GET_SINGE(CResourceManager)->GetBackBuffer();
 
 	Player* player = Player::GetInst();
+	
+	SelectObject(pBackBuffer->GetDC(), (HBRUSH)GetStockObject(WHITE_BRUSH));
+	Rectangle(pBackBuffer->GetDC(), player->GetPos().x - m_tRS.iW / 2, player->GetPos().y - m_tRS.iH / 2, player->GetPos().x + m_tRS.iW / 2, player->GetPos().y + m_tRS.iH / 2);
 
-	Rectangle(pBackBuffer->GetDC(), 0, 0, 1920, 1080);
 	GET_SINGE(CSceneManager)->Render(pBackBuffer->GetDC(), fDeltaTime);
 
 	BitBlt(m_hDC, 0, 0, m_tRS.iW, m_tRS.iH, pBackBuffer->GetDC(), player->GetPos().x - m_tRS.iW / 2, player->GetPos().y - m_tRS.iH / 2, SRCCOPY);

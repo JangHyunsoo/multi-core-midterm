@@ -33,11 +33,11 @@ public:
 	}
 private:
 	void GenerateMap() {
-		Clock::GetInst()->start();
 		setUpMapParallel();
+		Clock::GetInst()->start();
+		DrawMapParallel();
 		Clock::GetInst()->end();
 		Clock::GetInst()->message();
-		DrawMapParallel();
 	}
 	void setUpMap() {
 		std::vector<std::vector<double>> perlin_value(m_iHeight, vector<double>(m_iWidth, 0));
@@ -84,7 +84,7 @@ private:
 
 	void setUpMapParallel() {
 		std::vector<std::vector<double>> perlin_value(m_iHeight, vector<double>(m_iWidth, 0));
-		const int GRID_SIZE = 50;
+		const int GRID_SIZE = 100;
 		int thread_count = ThreadManager::GetInst()->getThreadCount();
 #pragma omp parallel num_threads(thread_count)
 		{
@@ -137,4 +137,3 @@ private:
 		}
 	}
 };
-

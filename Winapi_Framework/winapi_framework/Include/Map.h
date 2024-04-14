@@ -61,21 +61,21 @@ protected:
 			double d_end_height = (thread_count - 1 == thread_id) ? n : d_start_height + n / d_thread_count;
 			int end_height = (int)d_end_height;
 
-			for (int y = start_height; y < end_height; y++)
+			for (int y = 0; y < end_height - start_height; y++)
 			{
 				for (int x = 0; x < m_iWidth; x++)
 				{
-					int dx = m_tPos.x + x * m_iTileSize;
-					int dy = m_tPos.y + y * m_iTileSize;
-					SelectObject(m_vecMemDC[thread_id].hMemDC, getTile(m_2DMap[y][x]));
+					int dx = x * m_iTileSize;
+					int dy = y * m_iTileSize;
+					SelectObject(m_vecMemDC[thread_id].hMemDC, getTile(m_2DMap[y + start_height][x]));
 					Rectangle(m_vecMemDC[thread_id].hMemDC, dx, dy, dx + m_iTileSize, dy + m_iTileSize);
 				}
 			}
 		}
-
+			
 		for (int tID = 0; tID < thread_count; tID++)
 		{
-			BitBlt(m_hMemDC, 0, m_vecMemDC[tID].iStart * m_iTileSize, m_iWidth * m_iTileSize, (m_vecMemDC[tID].iEnd - m_vecMemDC[tID].iStart) * m_iTileSize, m_vecMemDC[tID].hMemDC, 0,0, SRCCOPY);
+			BitBlt(m_hMemDC, 0, 0, m_iWidth * m_iTileSize, (m_vecMemDC[tID].iEnd - m_vecMemDC[tID].iStart) * m_iTileSize, m_vecMemDC[tID].hMemDC, 0, m_vecMemDC[tID].iStart * m_iTileSize, SRCCOPY);
 		}
 
 		SelectObject(m_hMemDC, m_pAir);
@@ -95,11 +95,20 @@ protected:
 			double d_end_height = (thread_count - 1 == thread_id) ? n : d_start_height + n / d_thread_count;
 			int end_height = (int)d_end_height;
 
-			auto curMemDC = CreateCompatibleDC(m_hMemDC);
-			auto curMemBitmap = CreateCompatibleBitmap(curMemDC, m_iWidth * m_iTileSize, m_iHeight * m_iTileSize);
-			m_vecMemDC.push_back(ParallelMemDC{ curMemDC, curMemBitmap, start_height, end_height });
-			SelectObject(curMemDC, curMemBitmap);
+			auto subDC = CreateSubMemDC(m_hMemDC, m_iWidth, start_height, end_height);
+			m_vecMemDC.push_back(subDC);
 		}
+	}
+	ParallelMemDC CreateSubMemDC(HDC parentDC, int width, int start, int end) {
+		ParallelMemDC subDC;
+		subDC.iStart = start;
+		subDC.iEnd = end;
+
+		subDC.hMemDC = CreateCompatibleDC(parentDC);
+		subDC.hMemBitmap = CreateCompatibleBitmap(parentDC, width * m_iTileSize, (end - start) * m_iTileSize);
+		SelectObject(subDC.hMemDC, subDC.hMemBitmap);
+
+		return subDC;
 	}
 public:
 	virtual bool Init();
