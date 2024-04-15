@@ -11,3 +11,13 @@ enum class TILE_TYPE {
 	STONE,
 	WATER,
 };
+
+enum class ALGORITHM_TYPE {
+	NONE,
+	PERLIN,
+	CELLULAR_KEY,
+	CELLULAR_UPDATE,
+	MERGE,
+	GAME
+};
+

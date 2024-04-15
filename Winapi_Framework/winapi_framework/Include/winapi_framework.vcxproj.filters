@@ -68,6 +68,21 @@
     <ClCompile Include="ThreadManager.cpp">
       <Filter>02.Scripts</Filter>
     </ClCompile>
+    <ClCompile Include="MergeMap.cpp">
+      <Filter>02.Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectUI.cpp">
+      <Filter>02.Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="UpdateCellularMap.cpp">
+      <Filter>02.Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyCellularMap.cpp">
+      <Filter>02.Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="CellularGameMap.cpp">
+      <Filter>02.Scripts</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core.h">
@@ -152,6 +167,21 @@
       <Filter>02.Scripts</Filter>
     </ClInclude>
     <ClInclude Include="ThreadManager.h">
+      <Filter>02.Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="UpdateCellularMap.h">
+      <Filter>02.Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="MergeMap.h">
+      <Filter>02.Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectUI.h">
+      <Filter>02.Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyCellularMap.h">
+      <Filter>02.Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="CellularGameMap.h">
       <Filter>02.Scripts</Filter>
     </ClInclude>
   </ItemGroup>

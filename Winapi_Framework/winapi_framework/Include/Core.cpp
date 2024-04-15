@@ -31,7 +31,7 @@ CCore::~CCore()
 	ReleaseDC(m_hWnd, m_hDC);
 }
 
-bool CCore::Init(HINSTANCE hInst, const wchar_t* strName, int iWidth, int iHeight, int iThreadCount)
+bool CCore::Init(HINSTANCE hInst, const wchar_t* strName, int iWidth, int iHeight, int iThreadCount, bool parallel)
 {
 	this->m_hInst = hInst;
 
@@ -59,7 +59,7 @@ bool CCore::Init(HINSTANCE hInst, const wchar_t* strName, int iWidth, int iHeigh
 	if (!GET_SINGE(CInput)->Init(m_hWnd))
 		return false;
 
-	if (!GET_SINGE(CSceneManager)->Init(m_hDC))
+	if (!GET_SINGE(CSceneManager)->Init())
 		return false;
 
 	return true;
@@ -162,7 +162,11 @@ LRESULT CCore::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	switch (message)
 	{
 	case WM_CREATE:
-		
+		break;
+	case WM_COMMAND:
+		if (LOWORD(wParam) == 1) {
+			MessageBoxW(hWnd, L"버튼이 클릭되었습니다!", L"알림", MB_OK);
+		}
 		break;
 	case WM_DESTROY:
 		m_bLoop = false;

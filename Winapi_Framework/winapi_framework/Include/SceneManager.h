@@ -12,7 +12,7 @@ public:
 		return m_pScene;
 	}
 public:
-	bool Init(HDC hDC);
+	bool Init();
 	void Input(float fDeltaTime);
 	int Update(float fDeltaTime);
 	int LateUpdate(float fDeltaTime);
@@ -20,10 +20,10 @@ public:
 	void Render(HDC hDC, float fDeltaTime);
 public:
 	template<typename T>
-	T* CreateScene(HDC hDC, SCENE_CREATE sc) { // sc : next, current
+	T* CreateScene(SCENE_CREATE sc) { // sc : next, current
 		T* pScene = new T;
 
-		if (!pScene->Init(hDC)) {
+		if (!pScene->Init()) {
 			SAFE_DELETE(pScene);
 			return NULL;
 		}

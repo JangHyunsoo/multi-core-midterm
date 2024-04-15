@@ -6,6 +6,9 @@
 #include "Clock.h"
 #include <vector>
 #include <omp.h>
+#include "SceneManager.h"
+#include "Input.h"
+#include "InGameScene.h"
 
 using Array2D = std::vector<std::vector<TILE_TYPE>>;
 
@@ -22,13 +25,14 @@ class CMap :
 {
 public:
 	CMap();
-	CMap(HDC hDC, int width, int height);
+	CMap(HDC hDC, int width, int height, bool parallel);
 	CMap(const CMap& obj);
 	~CMap();
 protected:
 	const int m_iHeight = 100;
 	const int m_iWidth = 100;
 	const int m_iTileSize = 4;
+	bool m_bParallel = false;
 	Array2D m_2DMap;
 	HDC m_hMemDC;
 	HBITMAP m_hMemBitmap;
@@ -46,7 +50,28 @@ protected:
 	HBRUSH& getTile(TILE_TYPE tile_type);
 	void InitTexture();
 	virtual void GenerateMap() = 0;
-	void DrawMap();
+	void DrawMap() {
+		if (m_bParallel)
+		{
+			DrawMapParallel();
+		}
+		else {
+			DrawMapSerial();
+		}
+	}
+	void DrawMapSerial()
+	{
+		for (int x = 0; x < m_iWidth; x++) {
+			for (int y = 0; y < m_iHeight; y++) {
+				int dx = m_tPos.x + x * m_iTileSize;
+				int dy = m_tPos.y + y * m_iTileSize;
+				SelectObject(m_hMemDC, getTile(m_2DMap[y][x]));
+				Rectangle(m_hMemDC, dx, dy, dx + m_iTileSize, dy + m_iTileSize);
+			}
+		}
+
+		SelectObject(m_hMemDC, m_pAir);
+	}
 	void DrawMapParallel() {
 		int thread_count = ThreadManager::GetInst()->getThreadCount();
 #pragma omp parallel num_threads(thread_count)
@@ -110,7 +135,23 @@ protected:
 
 		return subDC;
 	}
+	void clearMemDC() {
+		DeleteObject(m_hMemBitmap);
+		DeleteDC(m_hMemDC);
+		for (auto item : m_vecMemDC) {
+			DeleteObject(item.hMemBitmap);
+			DeleteDC(item.hMemDC);
+		}
+	}
+	void clearMap() {
+		m_2DMap.clear();
+	}
+	
 public:
+	void clear() {
+		clearMemDC();
+		clearMap();
+	}
 	virtual bool Init();
 	virtual void Render(HDC hDC, float fDeltaTime);
 };

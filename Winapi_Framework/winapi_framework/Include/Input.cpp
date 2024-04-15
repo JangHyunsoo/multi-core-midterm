@@ -28,7 +28,11 @@ bool CInput::Init(HWND hWnd)
 	AddKey('R', "Up");
 	AddKey('B', "Activate");
 	AddKey('V', "ActivateParallel");
-
+	AddKey(VK_SPACE, "Reset");
+	AddKey('1', "ThreadCount");
+	AddKey('2', "Parallel");
+	AddKey('3', "Algorithm");
+	AddKey('4', "MapSize");
 
 	return true;
 }

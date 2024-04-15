@@ -148,11 +148,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CellularGameMap.cpp" />
     <ClCompile Include="CellularMap.cpp" />
     <ClCompile Include="Clock.cpp" />
     <ClCompile Include="FpsUI.cpp" />
     <ClCompile Include="Input.cpp" />
+    <ClCompile Include="KeyCellularMap.cpp" />
     <ClCompile Include="Map.cpp" />
+    <ClCompile Include="MergeMap.cpp" />
     <ClCompile Include="MoveObj.cpp" />
     <ClCompile Include="Obj.cpp" />
     <ClCompile Include="Core.cpp" />
@@ -167,12 +170,15 @@
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="SelectUI.cpp" />
     <ClCompile Include="StaticObj.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="ThreadManager.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="UpdateCellularMap.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CellularGameMap.h" />
     <ClInclude Include="CellularMap.h" />
     <ClInclude Include="Clock.h" />
     <ClInclude Include="Flag.h" />
@@ -182,9 +188,11 @@
     <ClInclude Include="Core.h" />
     <ClInclude Include="InGameScene.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="KeyCellularMap.h" />
     <ClInclude Include="Layer.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Mecro.h" />
+    <ClInclude Include="MergeMap.h" />
     <ClInclude Include="MoveObj.h" />
     <ClInclude Include="Obj.h" />
     <ClInclude Include="PathManager.h" />
@@ -196,11 +204,13 @@
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="SelectUI.h" />
     <ClInclude Include="StaticObj.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="ThreadManager.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Type.h" />
+    <ClInclude Include="UpdateCellularMap.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="winapi_framework.rc" />

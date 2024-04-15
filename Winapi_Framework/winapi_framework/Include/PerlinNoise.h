@@ -9,10 +9,10 @@ class PerlinNoise {
 private:
     vector<int> m_vecSeed;
 public:
-    PerlinNoise() : PerlinNoise(1) {}
+    PerlinNoise() : PerlinNoise(-1) {}
     PerlinNoise(unsigned int seed) {
         std::random_device rd;
-        std::mt19937 gen(seed);
+        std::mt19937 gen(seed == -1? rd() : seed);
         std::uniform_int_distribution<int> dis(10000000, 100000000);
         m_vecSeed.clear();
 

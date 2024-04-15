@@ -17,7 +17,7 @@ public:
 	class CLayer* FindLayer(const string& strTag);
 
 public:
-	virtual bool Init(HDC hDC);
+	virtual bool Init();
 	virtual void Input(float fDeltaTime);
 	virtual int Update(float fDeltaTime);
 	virtual int LateUpdate(float fDeltaTime);

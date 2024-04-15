@@ -13,7 +13,7 @@ CMap::CMap() {
 
 }
 
-CMap::CMap(HDC hDC, int width = 300, int height = 300) : m_iWidth(width), m_iHeight(height)
+CMap::CMap(HDC hDC, int width = 300, int height = 300, bool parallel=true) : m_iWidth(width), m_iHeight(height), m_bParallel(parallel)
 {
 	m_2DMap = Array2D(m_iHeight, std::vector<TILE_TYPE>(m_iWidth, TILE_TYPE::AIR));
 	m_hMemDC = CreateCompatibleDC(hDC);
@@ -33,8 +33,7 @@ CMap::CMap(const CMap& obj) :
 
 CMap::~CMap()
 {
-	DeleteObject(m_hMemBitmap);
-	DeleteDC(m_hMemDC);
+	clear();
 }
 
 void CMap::SetCell(int x, int y, TILE_TYPE bValue)
@@ -51,6 +50,7 @@ TILE_TYPE CMap::GetCell(int x, int y)
 
 bool CMap::Init()
 {
+	m_2DMap = Array2D(m_iHeight, std::vector<TILE_TYPE>(m_iWidth, TILE_TYPE::AIR));
 	SetTag("Map");
 	SetPos(0, 0);
 	InitTexture();
@@ -79,20 +79,6 @@ HBRUSH& CMap::getTile(TILE_TYPE tile_type) {
 	case TILE_TYPE::WATER:
 		return m_pWater;
 	}
-}
-
-void CMap::DrawMap()
-{
-	for (int x = 0; x < m_iWidth; x++) {
-		for (int y = 0; y < m_iHeight; y++) {
-			int dx = m_tPos.x + x * m_iTileSize;
-			int dy = m_tPos.y + y * m_iTileSize;
-			SelectObject(m_hMemDC, getTile(m_2DMap[y][x]));
-			Rectangle(m_hMemDC, dx, dy, dx + m_iTileSize, dy + m_iTileSize);
-		}
-	}
-
-	SelectObject(m_hMemDC, m_pAir);
 }
 
 bool CMap::IsMap(int x, int y)

@@ -2,6 +2,8 @@
 #include "Timer.h"
 #include <wchar.h>
 #include "Player.h"
+#include "Core.h"
+#include "Windows.h"
 
 CFpsUI::CFpsUI()
 {
@@ -26,6 +28,7 @@ bool CFpsUI::Init()
 
 void CFpsUI::Input(float fDeltaTime)
 {
+	
 }
 
 void CFpsUI::Render(HDC hDC, float fDeltaTime)
@@ -38,9 +41,9 @@ void CFpsUI::Render(HDC hDC, float fDeltaTime)
 		m_fCurCount = 0.01;
 	}
 	wchar_t buffer[20];
-	swprintf_s(buffer, L"%.2f", m_fCurFPS);
+	swprintf_s(buffer, L"FPS: %.2f", m_fCurFPS);
 	auto pos = Player::GetInst()->GetPos();
-	TextOut(hDC, pos.x - 320, pos.y - 320, (LPCWSTR)buffer, wcslen(buffer));
+	TextOut(hDC, pos.x - 340, pos.y - 340, (LPCWSTR)buffer, wcslen(buffer));
 }
 
 CFpsUI* CFpsUI::Clone()

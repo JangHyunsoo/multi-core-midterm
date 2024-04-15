@@ -1,7 +1,9 @@
 #pragma once
 #include <chrono>
 #include <Windows.h>
+#include <fstream>
 #include "Game.h"
+#include "ThreadManager.h"
 
 class Clock
 {
@@ -20,6 +22,26 @@ public:
 		std::chrono::duration<double> duration = m_pEnd - m_pStart;
 		return duration.count();
 	}
+	void writeLog(const string& message, int map_size) {
+		std::ofstream file("log.txt", std::ios::app);
+		if (!file.is_open()) {
+			file.open("example.txt", std::ios::out);
+		}
+		if (file.is_open()) {
+			int thread_count = ThreadManager::GetInst()->getThreadCount();
+			file << "[" << message << "] (thread: " << (message == "Serial" ? 1 : thread_count) << ", map_size: " << map_size << ", time: " << get() << ")\n";
+			file.close();
+		}
+		else {
+			MessageBox(NULL, L"Cannot Open Log", L"Clock", MB_ICONEXCLAMATION | MB_OK);
+		}
+	}
+
+	void clearLog() {
+		std::ofstream file("example.txt", std::ios::trunc);
+		file.close();
+	}
+
 	void message(){
 		double result = get();
 		wchar_t buffer[20];

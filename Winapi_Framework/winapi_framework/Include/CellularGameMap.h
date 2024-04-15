@@ -1,30 +1,36 @@
 #pragma once
 #include "Map.h"
-#include "Input.h"
-#include "Clock.h"
-#include <omp.h>
-
-class CellularMap :
+class CellularGameMap :
     public CMap
 {
-protected:
+private:
+	float m_fCurTime = 0.0f;
 	int m_iSeed = 1;
 public:
-	CellularMap(HDC hDC, int width, int height, bool parallel, int seed = 0) : CMap(hDC, width, height, parallel), m_iSeed(seed) {}
+	CellularGameMap(HDC hDC, int width, int height, bool parallel, int seed = 0) : CMap(hDC, width, height, parallel), m_iSeed(seed) {}
+	virtual CellularGameMap* Clone() {
+		return new CellularGameMap(*this);
+	}
+	virtual int Update(float fDeltaTime) {
+		m_fCurTime += fDeltaTime;
 
-    virtual CMap* Clone() {
-        return new CellularMap(*this);
-    }
+		if (m_fCurTime >= 1.0f) {
+			m_fCurTime = 0;
+			CalCellular();
+			DrawMap();
+		}
+		return 0;
+	}
 protected:
 	virtual void GenerateMap() {
 		SetupRandomMap();
 		DrawMap();
 	}
 
-    bool IsMap(int x, int y)
-    {
-        return x < m_iWidth && y < m_iHeight && x >= 0 && y >= 0;
-    }
+	bool IsMap(int x, int y)
+	{
+		return x < m_iWidth && y < m_iHeight && x >= 0 && y >= 0;
+	}
 
 	void SetupRandomMap() {
 		std::random_device rd;
@@ -52,6 +58,9 @@ protected:
 			{
 				int cur_x = x + dx;
 				int cur_y = y + dy;
+
+				if (dy == 0 && dx == 0) continue;
+
 				if (!IsMap(cur_x, cur_y)) {
 					counter++;
 				}
@@ -63,11 +72,14 @@ protected:
 		}
 		return counter;
 	}
-
-	inline virtual void CellularRule(int x, int y) {
+	inline virtual void CellularRule(int x, int y, Array2D& next_map) {
 		int counter = CountSurround(x, y);
-		if (counter > 4)		m_2DMap[y][x] = TILE_TYPE::LAND;
-		else if (counter < 4)	m_2DMap[y][x] = TILE_TYPE::AIR;
+		if (m_2DMap[y][x] == TILE_TYPE::LAND && (counter == 2 || counter == 3)) {
+			next_map[y][x] = TILE_TYPE::LAND;
+		}
+		else if (m_2DMap[y][x] == TILE_TYPE::AIR && counter == 3) {
+			next_map[y][x] = TILE_TYPE::LAND;
+		}
 	}
 
 	void CalCellular() {
@@ -79,18 +91,24 @@ protected:
 		}
 	}
 
+
 	void CalCellularSerial() {
+		Array2D next_map(m_iHeight, vector<TILE_TYPE>(m_iWidth, TILE_TYPE::AIR));
+
 		for (int y = 0; y < m_iHeight; y++)
 		{
 			for (int x = 0; x < m_iWidth; x++)
 			{
-				CellularRule(x, y);
+				CellularRule(x, y, next_map);
 			}
 		}
+		m_2DMap = next_map;
 	}
 
 	void CalCellularParallel() {
 		int thread_count = ThreadManager::GetInst()->getThreadCount();
+		Array2D next_map(m_iHeight, vector<TILE_TYPE>(m_iWidth, TILE_TYPE::AIR));
+
 #pragma omp parallel num_threads(thread_count)
 		{
 			int n = m_iHeight;
@@ -106,16 +124,18 @@ protected:
 			{
 				for (int x = 0; x < m_iWidth; x++)
 				{
-					CellularRule(x, y);
+					CellularRule(x, y, next_map);
 				}
 			}
 #pragma omp barrier
 			int y = end_height - 1;
 			for (int x = 0; x < m_iWidth; x++)
 			{
-				CellularRule(x, y);
+				CellularRule(x, y, next_map);
 			}
 		}
+		m_2DMap = next_map;
 	}
+
 };
 

@@ -12,8 +12,8 @@ CSceneManager::~CSceneManager() {
 	SAFE_DELETE(m_pNextScene);
 }
 
-bool CSceneManager::Init(HDC hDC) {
-	CreateScene<CInGameScene>(hDC, SCENE_CREATE::SC_CURRENT);
+bool CSceneManager::Init() {
+	CreateScene<CInGameScene>(SCENE_CREATE::SC_CURRENT);
 	
 	return true;
 }

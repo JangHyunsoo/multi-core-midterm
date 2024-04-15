@@ -8,6 +8,6 @@ private:
 private:
     CInGameScene();
 public:
-    virtual bool Init(HDC hDC); 
+    virtual bool Init(); 
 };
 
