@@ -51,6 +51,7 @@ TILE_TYPE CMap::GetCell(int x, int y)
 
 bool CMap::Init()
 {
+	SetTag("Map");
 	SetPos(0, 0);
 	InitTexture();
 	InitParallel();

@@ -63,7 +63,6 @@ public:
 
 public:
 	void AddObject(class CObj* pObj);
-
 public:
 	void Input(float fDeltaTime);
 	int Update(float fDeltaTime);

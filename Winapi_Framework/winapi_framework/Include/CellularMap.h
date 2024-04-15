@@ -7,6 +7,8 @@
 class CellularMap :
     public CMap
 {
+private:
+	float m_fCurTime = 0.0f;
 public:
 	CellularMap(HDC hDC, int width, int height) : CMap(hDC, width, height) {}
 
@@ -17,7 +19,7 @@ public:
             CalCellular();
 			Clock::GetInst()->end();
 			Clock::GetInst()->message();
-			DrawMap();
+			DrawMapParallel();
         }
 		if (GET_SINGE(CInput)->KeyDown("ActivateParallel")) {
 			CalCellularParallel();
@@ -27,6 +29,16 @@ public:
 			Clock::GetInst()->message();
 		}
     }
+	virtual int Update(float fDeltaTime) {
+		m_fCurTime += fDeltaTime;
+
+		if (m_fCurTime >= 1.0f) {
+			m_fCurTime = 0;
+			CalCellular();
+			DrawMap();
+		}
+		return 0;
+	}
 
     virtual CMap* Clone() {
         return new CellularMap(*this);
@@ -34,7 +46,7 @@ public:
 private:
 	virtual void GenerateMap() {
 		SetupRandomMap();
-		DrawMap();
+		DrawMapParallel();
 	}
 
     bool IsMap(int x, int y)

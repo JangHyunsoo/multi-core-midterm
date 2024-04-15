@@ -1,6 +1,10 @@
 #pragma once
 #include "MoveObj.h"
 #include "Input.h"
+#include "Map.h"
+#include "SceneManager.h"
+#include "Scene.h"
+#include "Obj.h"
 
 class Player :
     public CMoveObj

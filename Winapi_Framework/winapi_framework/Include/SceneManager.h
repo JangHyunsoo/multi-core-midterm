@@ -7,7 +7,10 @@ class CSceneManager
 private:
 	class CScene* m_pScene;
 	class CScene* m_pNextScene;
-
+public:
+	CScene* getScene() {
+		return m_pScene;
+	}
 public:
 	bool Init(HDC hDC);
 	void Input(float fDeltaTime);
