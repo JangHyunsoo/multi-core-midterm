@@ -15,7 +15,7 @@ CMap::CMap() {
 
 CMap::CMap(HDC hDC, int width = 300, int height = 300) : m_iWidth(width), m_iHeight(height)
 {
-	m_2DMap = Array2D(m_iHeight, std::vector<TILE_TYPE>(m_iWidth, TILE_TYPE::LAND));
+	m_2DMap = Array2D(m_iHeight, std::vector<TILE_TYPE>(m_iWidth, TILE_TYPE::AIR));
 	m_hMemDC = CreateCompatibleDC(hDC);
 	m_hMemBitmap = CreateCompatibleBitmap(hDC, m_iWidth * m_iTileSize, m_iHeight * m_iTileSize);
 	SelectObject(m_hMemDC, m_hMemBitmap);
@@ -24,7 +24,7 @@ CMap::CMap(HDC hDC, int width = 300, int height = 300) : m_iWidth(width), m_iHei
 CMap::CMap(const CMap& obj) :
 	CStaticObj(obj), m_iWidth(obj.m_iWidth), m_iHeight(obj.m_iHeight)
 {
-	m_2DMap = Array2D(obj.m_iHeight, std::vector<TILE_TYPE>(obj.m_iWidth, TILE_TYPE::LAND));
+	m_2DMap = Array2D(obj.m_iHeight, std::vector<TILE_TYPE>(obj.m_iWidth, TILE_TYPE::AIR));
 	m_hMemDC = obj.m_hMemDC;
 	m_hMemBitmap = obj.m_hMemBitmap;
 	SelectObject(m_hMemDC, m_hMemBitmap);

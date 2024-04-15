@@ -34,10 +34,7 @@ public:
 private:
 	void GenerateMap() {
 		setUpMapParallel();
-		Clock::GetInst()->start();
 		DrawMapParallel();
-		Clock::GetInst()->end();
-		Clock::GetInst()->message();
 	}
 	void setUpMap() {
 		std::vector<std::vector<double>> perlin_value(m_iHeight, vector<double>(m_iWidth, 0));

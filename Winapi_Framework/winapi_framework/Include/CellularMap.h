@@ -9,8 +9,9 @@ class CellularMap :
 {
 private:
 	float m_fCurTime = 0.0f;
+	int m_iSeed = 1;
 public:
-	CellularMap(HDC hDC, int width, int height) : CMap(hDC, width, height) {}
+	CellularMap(HDC hDC, int width, int height, int seed = 1) : CMap(hDC, width, height), m_iSeed(seed) {}
 
 	virtual void Input(float fDeltaTime)
     {
@@ -35,7 +36,7 @@ public:
 		if (m_fCurTime >= 1.0f) {
 			m_fCurTime = 0;
 			CalCellular();
-			DrawMap();
+			DrawMapParallel();
 		}
 		return 0;
 	}
@@ -56,17 +57,17 @@ private:
 
 	void SetupRandomMap() {
 		std::random_device rd;
-		std::mt19937 gen(rd());
-		std::uniform_real_distribution<float> dis(0.0f, 1.0f);
+		std::mt19937 gen(m_iSeed);
+		std::uniform_int_distribution<int> dis(0, 100);
 		int count = 0;
 
 		for (int y = 0; y < m_iHeight; y++)
 		{
 			for (int x = 0; x < m_iWidth; x++)
 			{
-				if (dis(gen) > 0.4f)
+				if (dis(gen) > 60)
 				{
-					m_2DMap[y][x] = TILE_TYPE::AIR;
+					m_2DMap[y][x] = TILE_TYPE::LAND;
 					count++;
 				}
 			}
@@ -92,10 +93,49 @@ private:
 		return counter;
 	}
 
+	inline int CountSurroundGame(int x, int y) {
+		int counter = 0;
+		for (int dy = -1; dy <= 1; dy++)
+		{
+			for (int dx = -1; dx <= 1; dx++)
+			{
+				int cur_x = x + dx;
+				int cur_y = y + dy;
+
+				if (dy == 0 && dx == 0) continue;
+
+				if (!IsMap(cur_x, cur_y)) {
+					counter++;
+				}
+				else if (m_2DMap[cur_y][cur_x] == TILE_TYPE::LAND)
+				{
+					counter++;
+				}
+			}
+		}
+		return counter;
+	}
+
 	inline void CellularRule(int x, int y) {
 		int counter = CountSurround(x, y);
 		if (counter > 4)		m_2DMap[y][x] = TILE_TYPE::LAND;
 		else if (counter < 4)	m_2DMap[y][x] = TILE_TYPE::AIR;
+	}
+
+	inline void CellularGameRule(int x, int y) {
+		int counter = CountSurroundGame(x, y);
+		if (counter < 2)
+		{
+			m_2DMap[y][x] = TILE_TYPE::AIR;
+		}
+		else if (counter == 3 || counter == 2)
+		{
+			m_2DMap[y][x] = TILE_TYPE::LAND;
+		}
+		else if (counter > 3)
+		{
+			m_2DMap[y][x] = TILE_TYPE::AIR;
+		}
 	}
 
 	void CalCellular() {
