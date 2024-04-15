@@ -9,6 +9,7 @@ class CellularMap :
 {
 public:
 	CellularMap(HDC hDC, int width, int height) : CMap(hDC, width, height) {}
+
 	virtual void Input(float fDeltaTime)
     {
         if (GET_SINGE(CInput)->KeyDown("Activate")) {
@@ -26,6 +27,7 @@ public:
 			Clock::GetInst()->message();
 		}
     }
+
     virtual CMap* Clone() {
         return new CellularMap(*this);
     }
@@ -34,10 +36,12 @@ private:
 		SetupRandomMap();
 		DrawMap();
 	}
+
     bool IsMap(int x, int y)
     {
         return x < m_iWidth && y < m_iHeight && x >= 0 && y >= 0;
     }
+
 	void SetupRandomMap() {
 		std::random_device rd;
 		std::mt19937 gen(rd());
@@ -75,21 +79,23 @@ private:
 		}
 		return counter;
 	}
+
+	inline void CellularRule(int x, int y) {
+		int counter = CountSurround(x, y);
+		if (counter > 4)		m_2DMap[y][x] = TILE_TYPE::LAND;
+		else if (counter < 4)	m_2DMap[y][x] = TILE_TYPE::AIR;
+	}
+
 	void CalCellular() {
 		for (int y = 0; y < m_iHeight; y++)
 		{
 			for (int x = 0; x < m_iWidth; x++)
 			{
-				int counter = CountSurround(x, y);
-				if (counter > 4) {
-					m_2DMap[y][x] = TILE_TYPE::LAND;
-				}
-				else if (counter < 4) {
-					m_2DMap[y][x] = TILE_TYPE::AIR;
-				}
+				CellularRule(x, y);
 			}
 		}
 	}
+
 	void CalCellularParallel() {
 		int thread_count = ThreadManager::GetInst()->getThreadCount();
 #pragma omp parallel num_threads(thread_count)
@@ -107,26 +113,14 @@ private:
 			{
 				for (int x = 0; x < m_iWidth; x++)
 				{
-					int counter = CountSurround(x, y);
-					if (counter > 4) {
-						m_2DMap[y][x] = TILE_TYPE::LAND;
-					}
-					else if (counter < 4) {
-						m_2DMap[y][x] = TILE_TYPE::AIR;
-					}
+					CellularRule(x, y);
 				}
 			}
 #pragma omp barrier
 			int y = end_height - 1;
 			for (int x = 0; x < m_iWidth; x++)
 			{
-				int counter = CountSurround(x, y);
-				if (counter > 4) {
-					m_2DMap[y][x] = TILE_TYPE::LAND;
-				}
-				else if (counter < 4) {
-					m_2DMap[y][x] = TILE_TYPE::AIR;
-				}
+				CellularRule(x, y);
 			}
 		}
 	}
