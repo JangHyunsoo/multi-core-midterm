@@ -75,7 +75,7 @@ protected:
 			
 		for (int tID = 0; tID < thread_count; tID++)
 		{
-			BitBlt(m_hMemDC, 0, 0, m_iWidth * m_iTileSize, (m_vecMemDC[tID].iEnd - m_vecMemDC[tID].iStart) * m_iTileSize, m_vecMemDC[tID].hMemDC, 0, m_vecMemDC[tID].iStart * m_iTileSize, SRCCOPY);
+			BitBlt(m_hMemDC, 0, m_vecMemDC[tID].iStart * m_iTileSize, m_iWidth * m_iTileSize, (m_vecMemDC[tID].iEnd - m_vecMemDC[tID].iStart) * m_iTileSize, m_vecMemDC[tID].hMemDC, 0, 0, SRCCOPY);
 		}
 
 		SelectObject(m_hMemDC, m_pAir);

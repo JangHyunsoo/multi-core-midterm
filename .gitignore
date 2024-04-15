@@ -386,3 +386,6 @@ FodyWeavers.xsd
 # JetBrains Rider
 .idea/
 *.sln.iml
+
+Winapi_Framework/winapi_framework/Texture
+*.exe
