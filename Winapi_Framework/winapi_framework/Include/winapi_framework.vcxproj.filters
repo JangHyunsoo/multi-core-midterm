@@ -1,0 +1,226 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Core.cpp">
+      <Filter>00.Framework\02.Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>00.Framework\02.Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Layer.cpp">
+      <Filter>00.Framework\02.Core</Filter>
+    </ClCompile>
+    <ClCompile Include="PathManager.cpp">
+      <Filter>00.Framework\02.Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Ref.cpp">
+      <Filter>00.Framework\02.Core</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>00.Framework\02.Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>00.Framework\02.Core</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>00.Framework\02.Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>00.Framework\02.Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>00.Framework\02.Core</Filter>
+    </ClCompile>
+    <ClCompile Include="FpsUI.cpp">
+      <Filter>02.Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="InGameScene.cpp">
+      <Filter>02.Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>02.Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveObj.cpp">
+      <Filter>00.Framework\03.Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Obj.cpp">
+      <Filter>00.Framework\03.Object</Filter>
+    </ClCompile>
+    <ClCompile Include="StaticObj.cpp">
+      <Filter>00.Framework\03.Object</Filter>
+    </ClCompile>
+    <ClCompile Include="PerlinNoise.cpp">
+      <Filter>02.Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="PerlinNoiseMap.cpp">
+      <Filter>02.Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="CellularMap.cpp">
+      <Filter>02.Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>02.Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="Clock.cpp">
+      <Filter>02.Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="ThreadManager.cpp">
+      <Filter>02.Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="MergeMap.cpp">
+      <Filter>02.Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectUI.cpp">
+      <Filter>02.Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="UpdateCellularMap.cpp">
+      <Filter>02.Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyCellularMap.cpp">
+      <Filter>02.Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="CellularGameMap.cpp">
+      <Filter>02.Scripts</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Core.h">
+      <Filter>00.Framework\02.Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>00.Framework\02.Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Layer.h">
+      <Filter>00.Framework\02.Core</Filter>
+    </ClInclude>
+    <ClInclude Include="PathManager.h">
+      <Filter>00.Framework\02.Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Ref.h">
+      <Filter>00.Framework\02.Core</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>00.Framework\02.Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>00.Framework\02.Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>00.Framework\02.Core</Filter>
+    </ClInclude>
+    <ClInclude Include="FpsUI.h">
+      <Filter>02.Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="InGameScene.h">
+      <Filter>02.Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>02.Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Mecro.h">
+      <Filter>00.Framework\01.Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>00.Framework\01.Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Flag.h">
+      <Filter>00.Framework\01.Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Function.h">
+      <Filter>00.Framework\01.Include</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveObj.h">
+      <Filter>00.Framework\03.Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Obj.h">
+      <Filter>00.Framework\03.Object</Filter>
+    </ClInclude>
+    <ClInclude Include="StaticObj.h">
+      <Filter>00.Framework\03.Object</Filter>
+    </ClInclude>
+    <ClInclude Include="PerlinNoise.h">
+      <Filter>02.Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>00.Framework\01.Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Type.h">
+      <Filter>00.Framework\01.Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>00.Framework\02.Core</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>00.Framework\02.Core</Filter>
+    </ClInclude>
+    <ClInclude Include="PerlinNoiseMap.h">
+      <Filter>02.Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="CellularMap.h">
+      <Filter>02.Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>02.Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Clock.h">
+      <Filter>02.Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreadManager.h">
+      <Filter>02.Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="UpdateCellularMap.h">
+      <Filter>02.Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="MergeMap.h">
+      <Filter>02.Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectUI.h">
+      <Filter>02.Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyCellularMap.h">
+      <Filter>02.Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="CellularGameMap.h">
+      <Filter>02.Scripts</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="00.Framework">
+      <UniqueIdentifier>{d9e94d5a-0da2-47cd-abb1-88ce1273aef2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.Framework\01.Include">
+      <UniqueIdentifier>{d8dc3199-ca4e-4681-8a7b-90fcc65e99e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.Framework\02.Core">
+      <UniqueIdentifier>{7bb47fc8-557d-4ae7-b5e7-3e4a967f48f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.Framework\03.Object">
+      <UniqueIdentifier>{68595f72-2284-449f-a183-ef0a4095994f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Scripts">
+      <UniqueIdentifier>{ccba5dbf-67e5-4261-a4b7-b620dae3f10d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Resources">
+      <UniqueIdentifier>{b1309830-5fc4-4ff9-8f68-5903bcb5c87f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Resources\01.Framework">
+      <UniqueIdentifier>{ac927b75-6fb7-44ca-8325-c6921c9b7019}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint">
+      <Filter>01.Resources\01.Framework</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon1.ico">
+      <Filter>01.Resources\01.Framework</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="winapi_framework.rc">
+      <Filter>01.Resources\01.Framework</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
