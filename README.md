@@ -1,10 +1,27 @@
-## preview
 
+## OpenMP와 WinAPI를 이용하여 Perlin Noise와 Cellular Automatic 최적화
+
+## Preview
+
+### Execute Result 
 | 방식 | Perlin | Cellular |
 |:---:|:-------------:|:---------------:|
 | 결과 | ![perlin](https://github.com/user-attachments/assets/b8a50e19-f9d0-4fb7-a69f-4cd84a60853e) | ![cellular](https://github.com/user-attachments/assets/c5544125-6fc6-4757-83da-494961fbaa88) |
 
-## ppt
+---
+
+### Perlin Performance Result
+![image](https://github.com/user-attachments/assets/da528dec-0196-42a5-ba06-cef393ed3cdb)
+---
+
+### Cellular Performance Result
+![image](https://github.com/user-attachments/assets/eb5d496d-008b-49d7-92e0-bcb53ea9b721)
+
+
+
+---
+
+## PPT
 ![슬라이드1](https://github.com/user-attachments/assets/4822d481-d789-4feb-a952-3b2bfe02d143)
 ![슬라이드2](https://github.com/user-attachments/assets/4dd665a4-82d9-4fd4-b4b0-40933efe9fcf)
 ![슬라이드3](https://github.com/user-attachments/assets/843b1913-35ae-4447-a540-037e90e1de48)
